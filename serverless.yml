@@ -13,8 +13,8 @@ provider:
 custom:
   emailService: 'gmail'
   # Replace these with your actual Gmail credentials:
-  emailUser: 'anubhavsaxenavibhu@gmail.com'  # Replace with your Gmail address
-  emailPassword: 'uffe nfue vmmx zijj'  # Replace with your 16-character App Password
+  emailUser: 'useremail@gmail.com'  # Replace with your Gmail address
+  emailPassword: 'xxxx xxxx xxxx xxxx'  # Replace with your 16-character App Password
   serverless-offline:
     httpPort: 3003
     lambdaPort: 3004

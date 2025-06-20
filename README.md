@@ -30,10 +30,10 @@ This is a serverless REST API that sends emails using AWS Lambda and the Serverl
 
 1. Start the local server:
    ```bash
-   npm start
+      npm run start:express      
    ```
 
-2. The API will be available at `http://localhost:3000/send-email`
+2. The API will be available at   'http://localhost:4000/send-email'
 
 ## API Usage
 
@@ -53,13 +53,7 @@ Send a POST request to `/send-email` with the following JSON body:
 - 400: Bad request (missing fields or invalid email format)
 - 500: Server error
 
-## Deployment
 
-To deploy to AWS:
-
-```bash
-npm run deploy
-```
 
 ## Security Notes
 
