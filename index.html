@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Email (Serverless UI)</title>
+  <style>
+    body {
+      background: #f4f6fb;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 2rem 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      margin-top: 0;
+      color: #2d3a4a;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin: 1rem 0 0.3rem 0;
+      color: #3a4a5d;
+      font-weight: 500;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #d1d9e6;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      box-sizing: border-box;
+      background: #f9fafc;
+      transition: border 0.2s;
+    }
+    input:focus, textarea:focus {
+      border: 1.5px solid #4f8cff;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background: #4f8cff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+    .message {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      text-align: center;
+    }
+    .success {
+      background: #e6f9ed;
+      color: #1a7f37;
+      border: 1px solid #b7e4c7;
+    }
+    .error {
+      background: #ffeaea;
+      color: #d32f2f;
+      border: 1px solid #f5c6cb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Send Email</h2>
+    <form id="emailForm">
+      <label for="receiver_email">To</label>
+      <input type="email" id="receiver_email" name="receiver_email" required placeholder="recipient@example.com">
+
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" name="subject" required placeholder="Subject">
+
+      <label for="body_text">Message</label>
+      <textarea id="body_text" name="body_text" rows="5" required placeholder="Type your message..."></textarea>
+
+      <button type="submit">Send Email</button>
+    </form>
+    <div id="responseMsg" class="message" style="display:none;"></div>
+  </div>
+  <script>
+    const form = document.getElementById('emailForm');
+    const responseMsg = document.getElementById('responseMsg');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      responseMsg.style.display = 'none';
+      responseMsg.className = 'message';
+      const data = {
+        receiver_email: form.receiver_email.value,
+        subject: form.subject.value,
+        body_text: form.body_text.value
+      };
+      try {
+        const res = await fetch('http://localhost:4000/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        if (res.ok) {
+          responseMsg.textContent = result.message || 'Email sent!';
+          responseMsg.classList.add('success');
+        } else {
+          responseMsg.textContent = result.error || 'Failed to send email.';
+          responseMsg.classList.add('error');
+        }
+      } catch (err) {
+        responseMsg.textContent = 'Network error. Is the server running?';
+        responseMsg.classList.add('error');
+      }
+      responseMsg.style.display = 'block';
+    });
+  </script>
+</body>
+</html> 

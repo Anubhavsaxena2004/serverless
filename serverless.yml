@@ -1,0 +1,32 @@
+service: email-service
+
+frameworkVersion: '3.40.0'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  environment:
+    EMAIL_SERVICE: ${self:custom.emailService}
+    EMAIL_USER: ${self:custom.emailUser}
+    EMAIL_PASSWORD: ${self:custom.emailPassword}
+
+custom:
+  emailService: 'gmail'
+  # Replace these with your actual Gmail credentials:
+  emailUser: 'anubhavsaxenavibhu@gmail.com'  # Replace with your Gmail address
+  emailPassword: 'uffe nfue vmmx zijj'  # Replace with your 16-character App Password
+  serverless-offline:
+    httpPort: 3003
+    lambdaPort: 3004
+
+functions:
+  sendEmail:
+    handler: handler.sendEmail
+    events:
+      - http:
+          path: send-email
+          method: post
+          cors: true
+
+plugins:
+  - serverless-offline 
